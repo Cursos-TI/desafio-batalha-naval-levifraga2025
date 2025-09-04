@@ -62,3 +62,58 @@ void criarHabilidadeOctaedro(int habilidade[TAM_HABILIDADE][TAM_HABILIDADE]) {
     }
 }
 
+// Função para aplicar a habilidade no tabuleiro
+void aplicarHabilidade(int tabuleiro[TAM_TABULEIRO][TAM_TABULEIRO],
+                       int habilidade[TAM_HABILIDADE][TAM_HABILIDADE],
+                       int origemLinha, int origemColuna) {
+    int centro = TAM_HABILIDADE / 2;
+    for (int i = 0; i < TAM_HABILIDADE; i++) {
+        for (int j = 0; j < TAM_HABILIDADE; j++) {
+            int linhaTabuleiro = origemLinha - centro + i;
+            int colunaTabuleiro = origemColuna - centro + j;
+
+            // Verifica se está dentro dos limites do tabuleiro
+            if (linhaTabuleiro >= 0 && linhaTabuleiro < TAM_TABULEIRO &&
+                colunaTabuleiro >= 0 && colunaTabuleiro < TAM_TABULEIRO) {
+                if (habilidade[i][j] == 1) {
+                    // Marca área afetada, mas mantém navio intacto
+                    if (tabuleiro[linhaTabuleiro][colunaTabuleiro] == 0)
+                        tabuleiro[linhaTabuleiro][colunaTabuleiro] = 5;
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    int tabuleiro[TAM_TABULEIRO][TAM_TABULEIRO] = {0};
+
+    // --- Posicionando dois navios horizontais e verticais ---
+    tabuleiro[1][1] = 3;
+    tabuleiro[1][2] = 3;
+    tabuleiro[1][3] = 3;
+
+    tabuleiro[4][7] = 3;
+    tabuleiro[5][7] = 3;
+    tabuleiro[6][7] = 3;
+
+    // --- Criando matrizes de habilidade ---
+    int cone[TAM_HABILIDADE][TAM_HABILIDADE];
+    int cruz[TAM_HABILIDADE][TAM_HABILIDADE];
+    int octaedro[TAM_HABILIDADE][TAM_HABILIDADE];
+
+    criarHabilidadeCone(cone);
+    criarHabilidadeCruz(cruz);
+    criarHabilidadeOctaedro(octaedro);
+
+    // --- Aplicando habilidades no tabuleiro ---
+    aplicarHabilidade(tabuleiro, cone, 2, 2);       // Origem no topo do cone
+    aplicarHabilidade(tabuleiro, cruz, 5, 5);       // Origem no centro da cruz
+    aplicarHabilidade(tabuleiro, octaedro, 7, 7);   // Origem no centro do octaedro
+
+    // --- Exibindo o tabuleiro final ---
+    imprimirTabuleiro(tabuleiro);
+
+    return 0;
+}
+
