@@ -23,3 +23,31 @@ int main() {
         printf("Erro: navio horizontal fora dos limites do tabuleiro.\n");
         return 1;
     }
+
+    // --- Posicionando navio vertical ---
+    // Validar limites do tabuleiro
+    if (navioVerticalLinha + TAM_NAVIO <= TAM_TABULEIRO) {
+        for (int i = 0; i < TAM_NAVIO; i++) {
+            // Validar se não há sobreposição
+            if (tabuleiro[navioVerticalLinha + i][navioVerticalColuna] == 3) {
+                printf("Erro: navio vertical se sobrepõe a outro navio.\n");
+                return 1;
+            }
+            tabuleiro[navioVerticalLinha + i][navioVerticalColuna] = 3;
+        }
+    } else {
+        printf("Erro: navio vertical fora dos limites do tabuleiro.\n");
+        return 1;
+    }
+
+    // --- Exibindo o tabuleiro ---
+    printf("Tabuleiro Batalha Naval (0 = água, 3 = navio):\n\n");
+    for (int i = 0; i < TAM_TABULEIRO; i++) {
+        for (int j = 0; j < TAM_TABULEIRO; j++) {
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
